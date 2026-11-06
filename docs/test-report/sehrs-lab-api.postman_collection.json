@@ -1,0 +1,64 @@
+{
+  "info": {
+    "name": "SEHRS Lab API",
+    "description": "Security tests for POST /api/lab-results. Set the token variable to the value from: php artisan sehrs:lab-token lab@sehrs.test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000" },
+    { "key": "token", "value": "PASTE-TOKEN-HERE" }
+  ],
+  "item": [
+    {
+      "name": "1. Valid token — expect 201",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"patient_number\": \"SEHRS-000001\",\n  \"test_name\": \"Malaria parasite (MP)\",\n  \"result\": \"Negative\"\n}" },
+        "url": "{{baseUrl}}/api/lab-results"
+      }
+    },
+    {
+      "name": "2. No token — expect 401",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"patient_number\": \"SEHRS-000001\",\n  \"test_name\": \"FBC\",\n  \"result\": \"Normal\"\n}" },
+        "url": "{{baseUrl}}/api/lab-results"
+      }
+    },
+    {
+      "name": "3. Unknown patient — expect 422",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"patient_number\": \"SEHRS-999999\",\n  \"test_name\": \"FBC\",\n  \"result\": \"Normal\"\n}" },
+        "url": "{{baseUrl}}/api/lab-results"
+      }
+    },
+    {
+      "name": "4. SQL injection attempt — expect 422",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"patient_number\": \"' OR 1=1 --\",\n  \"test_name\": \"FBC\",\n  \"result\": \"Normal\"\n}" },
+        "url": "{{baseUrl}}/api/lab-results"
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+/* SEHRS custom styles — small on purpose; Bootstrap does most of the work. */
+:root {
+    --sehrs-primary: #0b6e6e;
+    --sehrs-primary-dark: #084f4f;
+    --sehrs-sidebar-width: 250px;
+}
+body { background: #f4f7f8; }
+
+.btn-primary { --bs-btn-bg: var(--sehrs-primary); --bs-btn-border-color: var(--sehrs-primary);
+               --bs-btn-hover-bg: var(--sehrs-primary-dark); --bs-btn-hover-border-color: var(--sehrs-primary-dark);
+               --bs-btn-active-bg: var(--sehrs-primary-dark); }
+.text-sehrs { color: var(--sehrs-primary); }
+.bg-sehrs { background: var(--sehrs-primary); }
+
+/* Sidebar */
+.sidebar { width: var(--sehrs-sidebar-width); background: var(--sehrs-primary-dark); color: #fff; }
+@media (min-width: 992px) {
+    .sidebar { position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+}
+.sidebar .brand { font-weight: 700; letter-spacing: .5px; }
+.sidebar .nav-link { color: rgba(255,255,255,.8); border-radius: .375rem; padding: .55rem .75rem; }
+.sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.08); }
+.sidebar .nav-link.active { color: #fff; background: rgba(255,255,255,.18); }
+.sidebar .nav-link i { width: 1.4rem; display: inline-block; }
+
+/* Main area */
+.main { min-width: 0; }
+.topbar { background: #fff; border-bottom: 1px solid #e3e8ea; }
+
+/* Dashboard cards */
+.stat-card { border: 0; border-radius: .75rem; }
+.stat-card .stat-icon { width: 48px; height: 48px; border-radius: .6rem; display: flex;
+                        align-items: center; justify-content: center; font-size: 1.4rem;
+                        background: rgba(11,110,110,.1); color: var(--sehrs-primary); }
+
+/* Auth pages */
+.auth-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center;
+                background: linear-gradient(135deg, var(--sehrs-primary-dark), var(--sehrs-primary)); }
+.auth-card { width: 100%; max-width: 420px; border: 0; border-radius: 1rem; }
+
+.synthetic-banner { font-size: .8rem; }
